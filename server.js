@@ -1,10 +1,13 @@
+import cors from 'cors';
+app.use(cors());
+
 const express = require('express');
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
 
 app.locals.title = 'Trapper Keeper'
-app.locals.notes = [
+app.locals.cards = [
     {id: 1, name: 'Grocery List', list: [
         {list_id: 'a1', body: 'Soda Pop'},
         {list_id: 'a2', body: 'Candy Canes'}
@@ -18,8 +21,8 @@ app.locals.notes = [
 
 app.use(express.json());
 
-app.get('/api/v1/notes', (request, response) => {
-    return response.status(200).json(app.locals.notes)
+app.get('/api/v1/cards', (request, response) => {
+    return response.status(200).json(app.locals.cards)
 });
 
 
