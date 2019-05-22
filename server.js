@@ -1,9 +1,12 @@
-import cors from 'cors';
-app.use(cors());
+// import cors from 'cors';
+
+let cors = require('cors')
+
 
 const express = require('express');
 const app = express();
 
+app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.locals.title = 'Trapper Keeper'
