@@ -45,11 +45,25 @@ app.post('/api/v1/cards/listitems', (req, res) => {
     const { name, list } = req.body;
     if(!name) return res.status(422).json('Please name your card')
     const newItem = {
-        id: Date.now(),
+        list_id: Date.now(),
         ...req.body
     };
     app.locals.cards = [...app.locals.listItems, newItem]
     res.status(201).json(newItem)
+});
+
+app.delete('/api/v1/cards/:id', (req , res) => {
+    const cardIndex = app.locals.cards.findIndex( card => card.id === req.params.id);
+    if(cardIndex === -1) return res.status(404).json('Card not found');
+    app.locals.cards.splice(cardIndex, 1)
+    return res.sendStatus(204)
+});
+
+app.delete('/api/v1/cards/listitems/:id', (req, res) => {
+    const listIndex = app.locals.listItems.findIndex( item => item.list_id === req.params.id)
+    if(listIndex === -1) return res.status(404).json('List Item not found');
+    app.locals.cards.splice(listIndex, 1)
+    return res.sendStatus(204)
 });
 
 
