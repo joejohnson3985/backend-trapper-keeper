@@ -41,6 +41,17 @@ app.post('/api/v1/cards', (req, res) => {
     res.status(201).json(newCard)
 });
 
+app.post('/api/v1/cards/listitems', (req, res) => {
+    const { name, list } = req.body;
+    if(!name) return res.status(422).json('Please name your card')
+    const newItem = {
+        id: Date.now(),
+        ...req.body
+    };
+    app.locals.cards = [...app.locals.listItems, newItem]
+    res.status(201).json(newItem)
+});
+
 
 
 app.listen(app.get('port'), () => {
