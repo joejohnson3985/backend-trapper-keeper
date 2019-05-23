@@ -28,7 +28,7 @@ describe('api', () => {
       newCard = {name: 'Pets'};
     });
 
-    describe('Happy', () => {
+    describe('Happy POST', () => {
       it('should return a 201 and an array of cards', async () => {
         const response = await request(app).post('/api/v1/cards').send(newCard);
         expect(response.statusCode).toBe(201);
@@ -41,7 +41,7 @@ describe('api', () => {
       });
     });
 
-    describe('Sad', () => {
+    describe('Sad POST', () => {
 
       beforeEach(() => {
         newCard.name = '';
@@ -59,7 +59,7 @@ describe('api', () => {
   })
 
   describe('DELETE /api/v1/cards/:id', () => {
-    describe('Happy', () => {
+    describe('Happy DELETE', () => {
       it('should return a 204 if card successfully deleted', async () => {
         const response = await request(app).delete('/api/v1/cards/1');
         expect(response.status).toBe(204);
@@ -73,7 +73,7 @@ describe('api', () => {
       });
     });
 
-    describe('Sad', () => {
+    describe('Sad DELETE', () => {
       it('should return a 404 if card does not exist', async () => {
         const response = await request(app).delete('/api/v1/cards/5');
         expect(response.status).toBe(404);
