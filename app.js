@@ -21,8 +21,8 @@ app.locals.cards = [
   }
 ]
 
-app.get('/api/v1/cards', (request, response) => {
-  return response.status(200).json(app.locals.cards);
+app.get('/api/v1/cards', (req, res) => {
+  return res.status(200).json(app.locals.cards);
 });
 
 app.post('/api/v1/cards', (req, res) => {
@@ -36,11 +36,11 @@ app.post('/api/v1/cards', (req, res) => {
   res.status(201).json(newCard);
 });
 
-app.get('/api/v1/cards/:id', (request, response) => {
-  const { id } = request.params;
+app.get('/api/v1/cards/:id', (req, res) => {
+  const { id } = req.params;
   const matchingCard = app.locals.cards.find(card => card.id == id);
-  if (!matchingCard) return response.status(404).json(`Card with id of ${id} does not exist`);
-  return response.status(200).json(matchingCard);
+  if (!matchingCard) return res.status(404).json(`Card with id of ${id} does not exist`);
+  return res.status(200).json(matchingCard);
 });
 
 app.put('/api/v1/cards/:id', (req, res) => {
@@ -50,7 +50,7 @@ app.put('/api/v1/cards/:id', (req, res) => {
   const id = req.params.id;
   const targetCardIndex = app.locals.cards.findIndex(card => card.id === id);
   if (targetCardIndex === -1) return res.status(404).json('Cannot update: Card not found');
-  const updatedCard = {id, ...req.body};
+  const updatedCard = {id, name, list};
   app.locals.cards.splice(targetCardIndex, 1, updatedCard);
   res.status(200).json(updatedCard);
 });
