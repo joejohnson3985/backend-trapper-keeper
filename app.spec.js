@@ -6,8 +6,8 @@ describe('api', () => {
 
   beforeEach(() => {
     cards = [
-      {id: 1, name: 'Grocery List'},
-      {id: 2, name: 'Chores List'}
+      {id: 1, name: 'Grocery List', list: [1, 2]},
+      {id: 2, name: 'Chores List', list: [3, 4]}
     ];
     app.locals.cards = cards;
   });
@@ -76,6 +76,47 @@ describe('api', () => {
     });
   })
 
+  describe('PUT /api/v1/cards/:id', () => {
+    describe('Happy PUT', () => {
+      it('should return a 204 if card successfully updated', async () => {
+        const newCardInfo = { name: 'Grocery List', list: ['item1', 'item2'] };
+        const response = await request(app).put('/api/v1/cards/1').send(newCardInfo);
+        expect(response.status).toBe(204);
+      });
+
+      it('should update the target card if successful', async () => {
+        const newCardInfo = { name: 'Grocery List', list: ['item1', 'item2'] };
+        const expected = [{id: 1, ...newCardInfo}, cards[1]];
+        expect(app.locals.cards).toEqual(cards)
+        const response = await request(app).put('/api/v1/cards/1').send(newCardInfo);
+        expect(app.locals.cards).toEqual(expected)
+      });
+    });
+
+    describe('Sad PUT', () => {
+      it('should return a 422 and an error message if there is no list', async () => {
+        const cardWithNoList = { name: 'Pets', list: [] };
+        const response = await request(app).put('/api/v1/cards/1').send(cardWithNoList);
+        expect(response.status).toBe(422);
+        expect(response.body).toBe('You must have at least 1 list item before you can save this card');
+      });
+
+      it('should return a 422 and an error message if there is no name', async () => {
+        const cardWithNoName = { name: '', list: [1,2] };
+        const response = await request(app).put('/api/v1/cards/1').send(cardWithNoName);
+        expect(response.status).toBe(422);
+        expect(response.body).toBe('Your card must have a name');
+      });
+
+      it('should return a 404 and an error message if the card does not exist', async () => {
+        const newCardInfo = { name: 'Grocery List', list: ['item1', 'item2'] };
+        const response = await request(app).put('/api/v1/cards/5').send(newCardInfo);
+        expect(response.status).toBe(404);
+        expect(response.body).toBe(`Cannot update: Card not found at the id of 5`);
+      });
+    });
+  });
+
   describe('DELETE /api/v1/cards/:id', () => {
     describe('Happy DELETE', () => {
       it('should return a 204 if card successfully deleted', async () => {
@@ -84,10 +125,11 @@ describe('api', () => {
       });
 
       it('should delete the card if it exists', async () => {
+        const expected = [cards[1]]
         expect(app.locals.cards.length).toBe(2);
         await request(app).delete('/api/v1/cards/1');
         expect(app.locals.cards.length).toBe(1);
-        expect(app.locals.cards).toEqual([{id: 2, name: 'Chores List'}])
+        expect(app.locals.cards).toEqual(expected)
       });
     });
 
