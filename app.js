@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const uuidv1 = require('uuid/v1')
 
 const app = express();
 app.use(cors());
@@ -28,7 +29,7 @@ app.post('/api/v1/cards', (req, res) => {
   const { name, list } = req.body;
   if(!name) return res.status(422).json('Please name your card');
   const newCard = {
-      id: Date.now(),
+      id: uuidv1(),
       ...req.body
   };
   app.locals.cards = [...app.locals.cards, newCard];
