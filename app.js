@@ -52,7 +52,7 @@ app.put('/api/v1/cards/:id', (req, res) => {
   if (targetCardIndex === -1) return res.status(404).json('Cannot update: Card not found');
   const updatedCard = {id, name, list};
   app.locals.cards.splice(targetCardIndex, 1, updatedCard);
-  res.status(200).json(updatedCard);
+  res.sendStatus(204);
 });
 
 app.delete('/api/v1/cards/:id', (req , res) => {
