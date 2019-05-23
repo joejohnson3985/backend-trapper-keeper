@@ -21,6 +21,24 @@ describe('api', () => {
     });
   });
 
+  describe('GET /api/v1/cards/:id', () => {
+    describe('Happy GET', () => {
+      it('should return a 200 and the matching card', async () => {
+        const response = await request(app).get('/api/v1/cards/1');
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual(cards[0]);
+      });
+    });
+
+    describe('Sad GET', () => {
+      it('should return a 404 and an error message if card doesn\'t exist', async () => {
+        const response = await request(app).get('/api/v1/cards/5');
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toEqual(`Card with id of 5 does not exist`);
+      });
+    });
+  });
+
   describe('POST /api/v1/cards', () => {
     let newCard;
 
