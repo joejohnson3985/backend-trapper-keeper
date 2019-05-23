@@ -48,7 +48,7 @@ app.post('/api/v1/cards/listitems', (req, res) => {
 });
 
 app.delete('/api/v1/cards/:id', (req , res) => {
-    const cardIndex = app.locals.cards.findIndex( card => card.id === req.params.id);
+    const cardIndex = app.locals.cards.findIndex( card => card.id == req.params.id);
     if(cardIndex === -1) return res.status(404).json('Card not found');
     app.locals.cards.splice(cardIndex, 1)
     return res.sendStatus(204)
