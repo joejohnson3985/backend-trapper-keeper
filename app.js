@@ -17,7 +17,6 @@ app.locals.listItems = [
     {list_id: 243432, card_id: 2, item: 'Do the dishes'}
 ]
 
-
 app.get('/api/v1/cards', (request, response) => {
     return response.status(200).json(app.locals.cards)
 });
