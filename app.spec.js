@@ -21,6 +21,24 @@ describe('api', () => {
     });
   });
 
+  describe('GET /api/v1/cards/:id', () => {
+    describe('Happy GET', () => {
+      it('should return a 200 and the matching card', async () => {
+        const response = await request(app).get('/api/v1/cards/1');
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual(cards[0]);
+      });
+    });
+
+    describe('Sad GET', () => {
+      it('should return a 404 and an error message if card doesn\'t exist', async () => {
+        const response = await request(app).get('/api/v1/cards/5');
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toEqual(`Card with id of 5 does not exist`);
+      });
+    });
+  });
+
   describe('POST /api/v1/cards', () => {
     let newCard;
 
@@ -28,20 +46,20 @@ describe('api', () => {
       newCard = {name: 'Pets'};
     });
 
-    describe('Happy', () => {
+    describe('Happy POST', () => {
       it('should return a 201 and an array of cards', async () => {
         const response = await request(app).post('/api/v1/cards').send(newCard);
         expect(response.statusCode).toBe(201);
       });
 
       it('should return the new card with an id', async () => {
-        Date.now = jest.fn().mockImplementation(() => 10);
         const response = await request(app).post('/api/v1/cards').send(newCard);
-        expect(response.body).toEqual({id: 10, ...newCard});
+        console.log(response.body);
+        expect(response.body.id).toBeDefined();
       });
     });
 
-    describe('Sad', () => {
+    describe('Sad POST', () => {
 
       beforeEach(() => {
         newCard.name = '';
@@ -59,7 +77,7 @@ describe('api', () => {
   })
 
   describe('DELETE /api/v1/cards/:id', () => {
-    describe('Happy', () => {
+    describe('Happy DELETE', () => {
       it('should return a 204 if card successfully deleted', async () => {
         const response = await request(app).delete('/api/v1/cards/1');
         expect(response.status).toBe(204);
@@ -73,7 +91,7 @@ describe('api', () => {
       });
     });
 
-    describe('Sad', () => {
+    describe('Sad DELETE', () => {
       it('should return a 404 if card does not exist', async () => {
         const response = await request(app).delete('/api/v1/cards/5');
         expect(response.status).toBe(404);

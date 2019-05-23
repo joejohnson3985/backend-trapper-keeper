@@ -37,8 +37,9 @@ app.post('/api/v1/cards', (req, res) => {
 });
 
 app.get('/api/v1/cards/:id', (request, response) => {
-  const { id } = req.params;
-  const matchingCard = app.locals.cards.find(card => card.id === id)
+  const { id } = request.params;
+  const matchingCard = app.locals.cards.find(card => card.id == id);
+  if (!matchingCard) return response.status(404).json(`Card with id of ${id} does not exist`);
   return response.status(200).json(matchingCard);
 });
 
