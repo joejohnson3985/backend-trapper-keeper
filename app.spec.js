@@ -1,6 +1,5 @@
-import request from 'supertest';
-import '@babel/polyfill';
-import app from './app';
+const request = require('supertest');
+const app = require('./app.js');
 
 describe('api', () => {
   describe('GET /api/v1/cards', () => {

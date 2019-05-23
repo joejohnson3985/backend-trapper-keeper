@@ -1,5 +1,5 @@
-import express from 'express';
-import cors from 'cors';
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
@@ -61,4 +61,4 @@ app.delete('/api/v1/cards/listitems/:id', (req, res) => {
     return res.sendStatus(204)
 });
 
-export default app;
+module.exports = app;
