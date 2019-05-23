@@ -33,7 +33,7 @@ app.post('/api/v1/cards', (req, res) => {
       ...req.body
   };
   app.locals.cards = [...app.locals.cards, newCard];
-  res.status(201).json(newCard);
+  return res.status(201).json(newCard);
 });
 
 app.get('/api/v1/cards/:id', (req, res) => {
@@ -47,12 +47,12 @@ app.put('/api/v1/cards/:id', (req, res) => {
   const { name, list } = req.body;
   if (!name) return res.status(422).json('Your card must have a name');
   if (!list.length) return res.status(422).json('You must have at least 1 list item before you can save this card');
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const targetCardIndex = app.locals.cards.findIndex(card => card.id === id);
-  if (targetCardIndex === -1) return res.status(404).json('Cannot update: Card not found');
+  if (targetCardIndex === -1) return res.status(404).json(`Cannot update: Card not found at the id of ${id}`);
   const updatedCard = {id, name, list};
   app.locals.cards.splice(targetCardIndex, 1, updatedCard);
-  res.sendStatus(204);
+  return res.sendStatus(204);
 });
 
 app.delete('/api/v1/cards/:id', (req , res) => {
