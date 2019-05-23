@@ -35,6 +35,12 @@ app.post('/api/v1/cards', (req, res) => {
   res.status(201).json(newCard);
 });
 
+app.get('/api/v1/cards/:id', (request, response) => {
+  const { id } = req.params;
+  const matchingCard = app.locals.cards.find(card => card.id === id)
+  return response.status(200).json(matchingCard);
+});
+
 app.put('/api/v1/cards/:id', (req, res) => {
   const { name, list } = req.body;
   if (!name) return res.status(422).json('Your card must have a name');
@@ -46,7 +52,6 @@ app.put('/api/v1/cards/:id', (req, res) => {
   app.locals.cards.splice(targetCardIndex, 1, updatedCard);
   res.status(200).json(updatedCard);
 });
-
 
 app.delete('/api/v1/cards/:id', (req , res) => {
   const cardIndex = app.locals.cards.findIndex( card => card.id == req.params.id);
