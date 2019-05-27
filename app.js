@@ -29,7 +29,7 @@ app.post('/api/v1/cards', (req, res) => {
   const { name, list } = req.body;
   if(!name) return res.status(422).json('Please name your card');
   const newCard = {
-      id: uuidv1(),
+      id: Date.now(),
       ...req.body
   };
   app.locals.cards = [...app.locals.cards, newCard];
