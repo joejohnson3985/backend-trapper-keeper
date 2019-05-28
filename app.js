@@ -9,14 +9,14 @@ app.use(express.json());
 app.locals.cards = [
   {id: 1, name: 'Grocery List',  list: 
     [
-      {list_id: 123123, item: 'Pop'},
-      {list_id: 321312, item: 'Coke'},
-      {list_id: 231312, item: 'Soda'}
+      {list_id: 123123, item: 'Pop', checked: true},
+      {list_id: 321312, item: 'Coke', checked: false},
+      {list_id: 231312, item: 'Soda', checked: true}
     ]
   },
   {id: 2, name: 'Chores List', list: 
     [
-      {list_id: 243432, item: 'Do the dishes'}
+      {list_id: 243432, item: 'Do the dishes', checked: false}
     ]
   }
 ]
@@ -29,7 +29,7 @@ app.post('/api/v1/cards', (req, res) => {
   const { name, list } = req.body;
   if(!name) return res.status(422).json('Please name your card');
   const newCard = {
-      id: uuidv1(),
+      id: Date.now(),
       ...req.body
   };
   app.locals.cards = [...app.locals.cards, newCard];
