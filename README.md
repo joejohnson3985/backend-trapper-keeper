@@ -20,6 +20,7 @@ Make sure this server is running on http://localhost:3000. To ensure this happen
 # End Points
 
 #### GET all cards - /api/v1/cards
+No paramaters are required for this endpoint. It will return an array of all the cards exisiting in the backend. By default there are two cards, *Grocery List*, and *Chores List*. They have 3 items and 1 item, respectively. 
 
 #### GET a specific card - /api/v1/cards/:id
 In order to get all the information for a specefic card you need to send in the card ID through the params. This will return the card object.
