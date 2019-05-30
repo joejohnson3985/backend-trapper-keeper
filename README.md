@@ -19,19 +19,19 @@ Make sure this server is running on http://localhost:3000. To ensure this happen
 
 # End Points
 
-## GET all cards - /api/v1/cards
+#### GET all cards - /api/v1/cards
 
-## GET a specific card - /api/v1/cards/:id
+#### GET a specific card - /api/v1/cards/:id
 In order to get all the information for a specefic card you need to send in the card ID through the params. This will return the card object.
 
-## POST a new card - /api/v1/cards
+#### POST a new card - /api/v1/cards
 
 In order to post a card you must pass in a *name* and a *list*. Name should be a string and list should be an array. containing at least one list object. The response for this request will be the new card created.
   
-## PUT changes in an exisiting card - /api/v1/cards/:id
+#### PUT changes in an exisiting card - /api/v1/cards/:id
 
 In order to post a card you must pass in an *id*, *name*, and *list*. The id will be an integer, the name should be a string and the list should be an array containg at least one list object. This will send a response of a 204 status code.
   
-## DELETE a card - /api/v1/cards/:id
+#### DELETE a card - /api/v1/cards/:id
 
 In order to delete a card you must send in the id of said card.
